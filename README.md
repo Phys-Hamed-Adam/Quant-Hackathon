@@ -17,12 +17,26 @@ def generate_signals(data: pd.DataFrame) -> pd.Series:
    - `0` = hold / flat
    - `-1` = sell / short
 
+## How to submit
+
+1. Create a branch with your team name:
+
+```bash
+git checkout -b your-team-name
+```
+
+2. Add your code and push:
+
+```bash
+git add .
+git commit -m "your-team-name submission"
+git push origin your-team-name
+```
+
 ## Rules
 - No NaNs in your output
 - Signal index must match the data index exactly
-
-
-This runs your strategy against the unseen data, applies transaction costs, and prints your metrics.
+- Do not push to `main` — only push to your team branch
 
 ## Scoring
 
