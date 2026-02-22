@@ -9,3 +9,4 @@ def download_hackathon_data():
     data.columns = ['_'.join(col).strip() for col in data.columns.values]
     data.to_csv("data/training_data_multi.csv")
 
+download_hackathon_data()
