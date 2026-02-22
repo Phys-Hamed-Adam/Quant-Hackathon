@@ -1,6 +1,6 @@
 # LEFS Quant Hackathon
 
-Build a trading strategy. Best performance. You may integrate machine learning and a graphical user interface to your trading bot. This will significantly help your chances in winning.
+Build a trading strategy. Best performance wins. You may integrate machine learning and a graphical user interface to your trading bot. This will significantly help your chances in winning.
 
 ## What to do
 
