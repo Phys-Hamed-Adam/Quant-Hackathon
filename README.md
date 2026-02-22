@@ -1,6 +1,6 @@
 # LEFS Quant Hackathon
 
-Build a trading strategy. Best performance wins. You may integrate machine learning and a graphical user interface to your trading bot. This will significantly help your chances in winning.
+Build a trading strategy. Best performance. You may integrate machine learning and a graphical user interface to your trading bot. This will significantly help your chances in winning.
 
 ## What to do
 
@@ -16,6 +16,16 @@ def generate_signals(data: pd.DataFrame) -> pd.Series:
    - `1` = buy / long
    - `0` = hold / flat
    - `-1` = sell / short
+
+## Training data
+
+Use `utilites.py` to download historical training data (SPY and QQQ from 2015–2026):
+
+```bash
+python -c "from utilites import download_hackathon_data; download_hackathon_data()"
+```
+
+This saves `data/training_data_multi.csv` which you can use to develop and train your strategy. Your strategy will be evaluated on separate unseen data.
 
 ## How to submit
 
