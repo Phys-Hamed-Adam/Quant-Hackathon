@@ -115,6 +115,20 @@ if __name__ == "__main__":
     
     print("Training QQQ...")
     models["QQQ"].fit(qqq_X_train_seq, qqq_y_train_seq, validation_data=(qqq_X_test_seq, qqq_y_test_seq), epochs=100, batch_size=32)
+    
+    import matplotlib.pyplot as plt
+
+    # Get the raw probability predictions on your test set
+    preds = models["SPY"].predict(spy_X_test_seq)
+
+    # Plot a histogram
+    plt.figure(figsize=(8, 5))
+    plt.hist(preds, bins=50, color='blue', alpha=0.7)
+    plt.axvline(0.5, color='red', linestyle='dashed', linewidth=2)
+    plt.title("Distribution of SPY Model Predictions")
+    plt.xlabel("Predicted Probability (0 = Down, 1 = Up)")
+    plt.ylabel("Frequency")
+    plt.show()
 
     # ----------------------------
     # Plot training history

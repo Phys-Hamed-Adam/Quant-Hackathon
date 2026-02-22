@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, GRU, Dropout, Conv1D, GlobalAveragePooling1D, BatchNormalization, SpatialDropout1D
+from tensorflow.keras.layers import Dense, GRU, Dropout, Conv1D, GlobalAveragePooling1D, BatchNormalization, SpatialDropout1D, Bidirectional, LeakyReLU
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping
 from tensorflow.keras.regularizers import l2
 import numpy as np
@@ -11,27 +11,26 @@ class TradingModel(Model):
         super().__init__()
         self.history = None
 
-        # Conv block - Wider kernel to see multi-day patterns, L2 to prevent noise fitting
+        # 1. Bottleneck the Conv block and increase L2 / Dropout
         self.conv1 = Conv1D(
-            filters=64, 
+            filters=64,             # <-- Reduced from 128
             kernel_size=5, 
-            activation='relu', 
             padding="same",
-            kernel_regularizer=l2(1e-4) 
+            kernel_regularizer=l2(1e-3) # <-- Increased penalty
         )
-        
+        self.leaky_conv = LeakyReLU(alpha=0.01)
         self.bn1 = BatchNormalization()
-        self.spatial_drop = SpatialDropout1D(0.2) # Drops entire 1D feature maps
+        self.spatial_drop = SpatialDropout1D(0.4) # <-- Increased to 40%
 
-        # GRU stack - L2 regularizers prevent exploding weights
-        self.gru1 = GRU(50, return_sequences=True, kernel_regularizer=l2(1e-4))
-        self.dropout1 = Dropout(0.3)
+        # 2. Shrink GRUs and increase Dropout
+        self.gru1 = Bidirectional(GRU(32, return_sequences=True, kernel_regularizer=l2(1e-3))) # <-- Reduced to 32 units, increased L2
+        self.dropout1 = Dropout(0.5) # <-- Increased to 50%
 
-        self.gru2 = GRU(50, kernel_regularizer=l2(1e-4))
-        self.dropout2 = Dropout(0.3)
+        self.gru2 = Bidirectional(GRU(32, kernel_regularizer=l2(1e-3)))
+        self.dropout2 = Dropout(0.5)
 
-        # Head
-        self.dense1 = Dense(25, activation='relu', kernel_regularizer=l2(1e-4))
+        # 3. Shrink Head
+        self.dense1 = Dense(16, kernel_regularizer=l2(1e-3)) # <-- Reduced to 16
         
         # BINARY OUTPUT: 0 (Down) or 1 (Up)
         self.out = Dense(1, activation='sigmoid')  
