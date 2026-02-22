@@ -35,10 +35,6 @@ def data_cleaning():
 
     return df
 
-<<<<<<< Updated upstream
-if __name__ == "__main__":
-    download_hackathon_data()   
-=======
 def add_price_direction_label(df, price_col='Close'):
     """
     Adds a 'Label' column to df:
@@ -66,4 +62,3 @@ if __name__ == "__main__":
         data = data_cleaning()
         data.to_csv("data/cleaned.csv")
         print(f"Data saved as cleaned.csv")
->>>>>>> Stashed changes
