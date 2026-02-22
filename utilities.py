@@ -35,5 +35,5 @@ def data_cleaning():
 
     return df
 
-
-download_hackathon_data()   
+if __name__ == "__main__":
+    download_hackathon_data()   
