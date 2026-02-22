@@ -68,7 +68,9 @@ def clean_after_inclusion(df: pd.DataFrame = None) -> pd.DataFrame:
     return df[df["Volume"] > 0] #return information greater than 0 for volume
 
 def prepare_data(df=None):
-    df.set_index(df.columns[0], inplace=True)
+    if df.index.name != "Date" and "Date" not in df.index.names:
+        df = df.set_index(df.columns[0])
+    
     df.index = pd.to_datetime(df.index)
     
     spy = [spy for spy in df.columns if "SPY" in spy]
@@ -90,4 +92,3 @@ def prepare_data(df=None):
     print(f"Technical indicators successfully included and stocks seperated!")
     return df_spy, df_qqq
 
-prepare_data()
